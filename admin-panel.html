@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Avcoe College</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-top-bar">
+            <div class="header-info">
+                <div class="info-item" id="time">
+                    <i class="fas fa-clock"></i>
+                    <span class="info-text">Loading...</span>
+                </div>
+                <div class="info-item" id="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="info-text">Avcoe, Sangamner, India</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-user-shield"></i>
+                    <span class="info-text">Admin Dashboard</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+            <nav>
+                <a href="index.html"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                <a href="students.html"><i class="fas fa-users"></i> Students</a>
+                <a href="admin.html"><i class="fas fa-lock"></i> Admin</a>
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="animated admin-dashboard">
+        <!-- Welcome Section -->
+        <div class="dashboard-header animate__animated animate__fadeInDown">
+            <h1>Welcome, Administrator</h1>
+            <p>Manage your college events, students, and content from this dashboard</p>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="dashboard-stats animate__animated animate__fadeInUp">
+            <div class="stat-item">
+                <i class="fas fa-calendar-alt stat-icon"></i>
+                <h3 id="total-events">0</h3>
+                <p>Upcoming Events</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-users stat-icon"></i>
+                <h3 id="total-students">0</h3>
+                <p>Total Students</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-chart-line stat-icon"></i>
+                <h3 id="placement-rate">0%</h3>
+                <p>Placement Rate</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-bell stat-icon"></i>
+                <h3 id="notifications">0</h3>
+                <p>Active Items</p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions animate__animated animate__fadeIn">
+            <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+            <div class="actions-grid">
+                <button class="action-btn" onclick="openTab('events')">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span>Add New Event</span>
+                </button>
+                <button class="action-btn" onclick="openTab('students')">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Add Student</span>
+                </button>
+                <button class="action-btn" onclick="showNotification('Data exported successfully!')">
+                    <i class="fas fa-file-export"></i>
+                    <span>Export Data</span>
+                </button>
+                <button class="action-btn" onclick="showNotification('Dashboard refreshed!')">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Refresh All</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs-container animate__animated animate__fadeIn">
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="events"><i class="fas fa-calendar-plus"></i> Manage Events</button>
+                <button class="tab-btn" data-tab="students"><i class="fas fa-user-graduate"></i> Manage Students</button>
+                <button class="tab-btn" data-tab="settings"><i class="fas fa-cog"></i> Settings</button>
+            </div>
+
+            <!-- Events Tab -->
+            <div id="events" class="tab-content active">
+                <div class="tab-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Event Management</h2>
+                    <p>Add and manage college events</p>
+                </div>
+                
+                <!-- Add Event Form -->
+                <div class="form-card">
+                    <h3><i class="fas fa-plus-circle"></i> Add New Event</h3>
+                    <form id="add-event-form">
+                        <input type="hidden" id="edit-event-id">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-date"><i class="fas fa-calendar-day"></i> Date:</label>
+                                <input type="date" id="event-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-name"><i class="fas fa-heading"></i> Event Name:</label>
+                                <input type="text" id="event-name" required placeholder="Enter event name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-summary"><i class="fas fa-align-left"></i> Description:</label>
+                            <textarea id="event-summary" rows="3" required placeholder="Describe the event"></textarea>
+                        </div>
+                        
+                        <!-- Event Image Upload Section -->
+                        <div class="form-group">
+                            <label><i class="fas fa-image"></i> Event Image:</label>
+                            <div class="url-toggle">
+                                <span>Upload Local Photo</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="event-image-toggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span>Use URL</span>
+                            </div>
+                            
+                            <!-- Local File Upload -->
+                            <div id="event-file-upload" class="file-upload-container">
+                                <div class="file-upload-wrapper">
+                                    <button type="button" class="file-upload-btn">
+                                        <i class="fas fa-upload"></i> Choose File
+                                    </button>
+                                    <input type="file" id="event-image-file" accept="image/*" class="file-input">
+                                </div>
+                                <span id="event-file-name">No file chosen</span>
+                            </div>
+                            
+                            <!-- URL Input -->
+                            <div id="event-url-input" class="url-input-group">
+                                <input type="text" id="event-image-url" placeholder="https://example.com/image.jpg">
+                                <small class="form-text">Enter image URL</small>
+                            </div>
+                            
+                            <!-- Preview -->
+                            <div id="event-preview" class="file-preview" style="display: none;">
+                                <img id="event-preview-image" class="preview-image" src="" alt="Preview">
+                                <div class="preview-info">
+                                    <p id="event-preview-name"></p>
+                                    <p id="event-preview-size"></p>
+                                </div>
+                                <button type="button" class="remove-file" onclick="clearEventImage()">
+                                    <i class="fas fa-times"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row buttons">
+                            <button type="submit" class="submit-btn" id="event-submit-btn">
+                                <i class="fas fa-plus"></i> Add Event
+                            </button>
+                            <button type="button" class="cancel-btn" id="event-cancel-btn" style="display:none;">
+                                <i class="fas fa-times"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Event List -->
+                <div class="events-list">
+                    <h3><i class="fas fa-list-alt"></i> Upcoming Events</h3>
+                    <div class="events-grid" id="events-list-container">
+                        <!-- Events will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Tab -->
+            <div id="students" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-users"></i> Student Management</h2>
+                    <p>Manage student records and placements</p>
+                </div>
+                
+                <!-- Add Student Form -->
+                <div class="form-card">
+                    <h3><i class="fas fa-user-plus"></i> Add New Student</h3>
+                    <form id="add-student-form">
+                        <input type="hidden" id="edit-student-id">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-name"><i class="fas fa-user"></i> Full Name:</label>
+                                <input type="text" id="student-name" required placeholder="Enter student name">
+                            </div>
+                            <div class="form-group">
+                                <label for="student-batch"><i class="fas fa-calendar-alt"></i> Batch:</label>
+                                <select id="student-batch" required>
+                                    <option value="">Select Batch</option>
+                                    <option value="24-25">2024-25</option>
+                                    <option value="23-24">2023-24</option>
+                                    <option value="22-23">2022-23</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-department"><i class="fas fa-building"></i> Department:</label>
+                                <input type="text" id="student-department" required placeholder="e.g., Computer Science">
+                            </div>
+                            <div class="form-group">
+                                <label for="student-company"><i class="fas fa-briefcase"></i> Company:</label>
+                                <input type="text" id="student-company" required placeholder="e.g., Google">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-package"><i class="fas fa-rupee-sign"></i> Package (LPA):</label>
+                                <input type="number" id="student-package" step="0.1" required placeholder="e.g., 15.5">
+                            </div>
+                        </div>
+                        
+                        <!-- Student Photo Upload Section -->
+                        <div class="form-group">
+                            <label><i class="fas fa-camera"></i> Student Photo:</label>
+                            <div class="url-toggle">
+                                <span>Upload Local Photo</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="student-image-toggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span>Use URL</span>
+                            </div>
+                            
+                            <!-- Local File Upload -->
+                            <div id="student-file-upload" class="file-upload-container">
+                                <div class="file-upload-wrapper">
+                                    <button type="button" class="file-upload-btn">
+                                        <i class="fas fa-upload"></i> Choose Photo
+                                    </button>
+                                    <input type="file" id="student-image-file" accept="image/*" class="file-input">
+                                </div>
+                                <span id="student-file-name">No file chosen</span>
+                            </div>
+                            
+                            <!-- URL Input -->
+                            <div id="student-url-input" class="url-input-group">
+                                <input type="text" id="student-image-url" placeholder="https://example.com/photo.jpg">
+                                <small class="form-text">Enter photo URL</small>
+                            </div>
+                            
+                            <!-- Preview -->
+                            <div id="student-preview" class="file-preview" style="display: none;">
+                                <img id="student-preview-image" class="preview-image" src="" alt="Preview">
+                                <div class="preview-info">
+                                    <p id="student-preview-name"></p>
+                                    <p id="student-preview-size"></p>
+                                </div>
+                                <button type="button" class="remove-file" onclick="clearStudentImage()">
+                                    <i class="fas fa-times"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row buttons">
+                            <button type="submit" class="submit-btn" id="student-submit-btn">
+                                <i class="fas fa-plus"></i> Add Student
+                            </button>
+                            <button type="button" class="cancel-btn" id="student-cancel-btn" style="display:none;">
+                                <i class="fas fa-times"></i> Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Student List -->
+                <div class="students-list">
+                    <h3><i class="fas fa-list"></i> All Students</h3>
+                    <div class="student-table-wrapper">
+                        <table id="students-table">
+                            <thead>
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>Name</th>
+                                    <th>Batch</th>
+                                    <th>Department</th>
+                                    <th>Company</th>
+                                    <th>Package (LPA)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-list-container">
+                                <!-- Students will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-cog"></i> Settings</h2>
+                    <p>Configure dashboard settings</p>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <i class="fas fa-trash-alt"></i>
+                        <h4>Clear All Data</h4>
+                        <p>Remove all events and students</p>
+                        <button class="btn-danger" onclick="clearAllData()">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <i class="fas fa-download"></i>
+                        <h4>Export Data</h4>
+                        <p>Export all data as JSON</p>
+                        <button class="btn-secondary" onclick="exportData()">
+                            <i class="fas fa-file-export"></i> Export
+                        </button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <i class="fas fa-upload"></i>
+                        <h4>Import Data</h4>
+                        <p>Import data from JSON file</p>
+                        <input type="file" id="import-file" accept=".json" style="display: none;">
+                        <button class="btn-secondary" onclick="document.getElementById('import-file').click()">
+                            <i class="fas fa-file-import"></i> Import
+                        </button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <i class="fas fa-database"></i>
+                        <h4>Storage Info</h4>
+                        <p>View data storage information</p>
+                        <button class="btn-secondary" onclick="showStorageInfo()">
+                            <i class="fas fa-info-circle"></i> View Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-university"></i> Avcoe College</h3>
+                <p>Sangamner, Maharashtra, India</p>
+                <p>Email: info@avcoe.com</p>
+                <p>Phone: +91 1234567890</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-calendar-alt"></i> Event Calendar</a></li>
+                    <li><a href="students.html"><i class="fas fa-users"></i> Student Gallery</a></li>
+                    <li><a href="admin.html"><i class="fas fa-lock"></i> Admin Login</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p class="copyright">
+                    &copy; 2024 Avcoe College Event Calendar. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data Management with File Upload Support
+        class DataManager {
+            constructor() {
+                this.events = JSON.parse(localStorage.getItem('college_events')) || [];
+                this.students = JSON.parse(localStorage.getItem('college_students')) || [];
+                this.loadInitialData();
+                this.updateStats();
+                this.setupFileUploads();
+            }
+            
+            setupFileUploads() {
+                // Event image toggle
+                const eventToggle = document.getElementById('event-image-toggle');
+                const eventFileUpload = document.getElementById('event-file-upload');
+                const eventUrlInput = document.getElementById('event-url-input');
+                
+                if (eventToggle && eventFileUpload && eventUrlInput) {
+                    eventToggle.addEventListener('change', function() {
+                        if (this.checked) {
+                            eventFileUpload.style.display = 'none';
+                            eventUrlInput.classList.add('show');
+                        } else {
+                            eventFileUpload.style.display = 'flex';
+                            eventUrlInput.classList.remove('show');
+                        }
+                    });
+                }
+                
+                // Student image toggle
+                const studentToggle = document.getElementById('student-image-toggle');
+                const studentFileUpload = document.getElementById('student-file-upload');
+                const studentUrlInput = document.getElementById('student-url-input');
+                
+                if (studentToggle && studentFileUpload && studentUrlInput) {
+                    studentToggle.addEventListener('change', function() {
+                        if (this.checked) {
+                            studentFileUpload.style.display = 'none';
+                            studentUrlInput.classList.add('show');
+                        } else {
+                            studentFileUpload.style.display = 'flex';
+                            studentUrlInput.classList.remove('show');
+                        }
+                    });
+                }
+                
+                // Event file upload
+                const eventFileInput = document.getElementById('event-image-file');
+                const eventFileName = document.getElementById('event-file-name');
+                const eventPreview = document.getElementById('event-preview');
+                const eventPreviewImage = document.getElementById('event-preview-image');
+                const eventPreviewName = document.getElementById('event-preview-name');
+                const eventPreviewSize = document.getElementById('event-preview-size');
+                
+                if (eventFileInput) {
+                    eventFileInput.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                if (eventPreviewImage) eventPreviewImage.src = event.target.result;
+                                if (eventPreviewName) eventPreviewName.textContent = file.name;
+                                if (eventPreviewSize) eventPreviewSize.textContent = this.formatFileSize(file.size);
+                                if (eventPreview) eventPreview.style.display = 'flex';
+                            }.bind(this);
+                            reader.readAsDataURL(file);
+                            if (eventFileName) eventFileName.textContent = file.name;
+                        }
+                    }.bind(this));
+                }
+                
+                // Student file upload
+                const studentFileInput = document.getElementById('student-image-file');
+                const studentFileName = document.getElementById('student-file-name');
+                const studentPreview = document.getElementById('student-preview');
+                const studentPreviewImage = document.getElementById('student-preview-image');
+                const studentPreviewName = document.getElementById('student-preview-name');
+                const studentPreviewSize = document.getElementById('student-preview-size');
+                
+                if (studentFileInput) {
+                    studentFileInput.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                if (studentPreviewImage) studentPreviewImage.src = event.target.result;
+                                if (studentPreviewName) studentPreviewName.textContent = file.name;
+                                if (studentPreviewSize) studentPreviewSize.textContent = this.formatFileSize(file.size);
+                                if (studentPreview) studentPreview.style.display = 'flex';
+                            }.bind(this);
+                            reader.readAsDataURL(file);
+                            if (studentFileName) studentFileName.textContent = file.name;
+                        }
+                    }.bind(this));
+                }
+            }
+            
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            loadInitialData() {
+                // Load initial sample data if empty
+                if (this.events.length === 0) {
+                    this.events = [
+                        {
+                            id: this.generateId(),
+                            date: '2024-01-15',
+                            name: 'College Fest Opening',
+                            summary: 'Annual college fest inauguration ceremony',
+                            image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=300&fit=crop'
+                        },
+                        {
+                            id: this.generateId(),
+                            date: '2024-01-20',
+                            name: 'Tech Symposium',
+                            summary: 'Annual technical symposium showcasing projects',
+                            image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=300&fit=crop'
+                        }
+                    ];
+                    this.saveEvents();
+                }
+                
+                if (this.students.length === 0) {
+                    this.students = [
+                        {
+                            id: this.generateId(),
+                            name: 'Rahul Sharma',
+                            batch: '24-25',
+                            department: 'Computer Science',
+                            company: 'Google',
+                            package: 18.5,
+                            image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face'
+                        },
+                        {
+                            id: this.generateId(),
+                            name: 'Priya Patel',
+                            batch: '23-24',
+                            department: 'Electronics Engineering',
+                            company: 'Microsoft',
+                            package: 16.2,
+                            image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face'
+                        }
+                    ];
+                    this.saveStudents();
+                }
+            }
+            
+            generateId() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            }
+            
+            saveEvents() {
+                localStorage.setItem('college_events', JSON.stringify(this.events));
+                this.updateStats();
+                this.renderEvents();
+            }
+            
+            saveStudents() {
+                localStorage.setItem('college_students', JSON.stringify(this.students));
+                this.updateStats();
+                this.renderStudents();
+            }
+            
+            // Event Management
+            addEvent(eventData) {
+                const event = {
+                    id: this.generateId(),
+                    date: eventData.date,
+                    name: eventData.name,
+                    summary: eventData.summary,
+                    image: eventData.image || ''
+                };
+                this.events.push(event);
+                this.saveEvents();
+                return event;
+            }
+            
+            updateEvent(id, eventData) {
+                const index = this.events.findIndex(e => e.id === id);
+                if (index !== -1) {
+                    this.events[index] = { id, ...eventData };
+                    this.saveEvents();
+                    return true;
+                }
+                return false;
+            }
+            
+            deleteEvent(id) {
+                const index = this.events.findIndex(e => e.id === id);
+                if (index !== -1) {
+                    this.events.splice(index, 1);
+                    this.saveEvents();
+                    return true;
+                }
+                return false;
+            }
+            
+            getEvent(id) {
+                return this.events.find(e => e.id === id);
+            }
+            
+            // Student Management
+            addStudent(studentData) {
+                const student = {
+                    id: this.generateId(),
+                    name: studentData.name,
+                    batch: studentData.batch,
+                    department: studentData.department,
+                    company: studentData.company,
+                    package: parseFloat(studentData.package),
+                    image: studentData.image
+                };
+                this.students.push(student);
+                this.saveStudents();
+                return student;
+            }
+            
+            updateStudent(id, studentData) {
+                const index = this.students.findIndex(s => s.id === id);
+                if (index !== -1) {
+                    this.students[index] = { 
+                        id, 
+                        ...studentData,
+                        package: parseFloat(studentData.package)
+                    };
+                    this.saveStudents();
+                    return true;
+                }
+                return false;
+            }
+            
+            deleteStudent(id) {
+                const index = this.students.findIndex(s => s.id === id);
+                if (index !== -1) {
+                    this.students.splice(index, 1);
+                    this.saveStudents();
+                    return true;
+                }
+                return false;
+            }
+            
+            getStudent(id) {
+                return this.students.find(s => s.id === id);
+            }
+            
+            // Data Export/Import
+            exportData() {
+                const data = {
+                    events: this.events,
+                    students: this.students,
+                    exportedAt: new Date().toISOString()
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `college-data-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                return data;
+            }
+            
+            importData(jsonData) {
+                try {
+                    const data = JSON.parse(jsonData);
+                    if (data.events) this.events = data.events;
+                    if (data.students) this.students = data.students;
+                    this.saveEvents();
+                    this.saveStudents();
+                    return true;
+                } catch (error) {
+                    console.error('Import error:', error);
+                    return false;
+                }
+            }
+            
+            clearAllData() {
+                if (confirm('Are you sure you want to clear ALL data? This action cannot be undone.')) {
+                    this.events = [];
+                    this.students = [];
+                    this.saveEvents();
+                    this.saveStudents();
+                    return true;
+                }
+                return false;
+            }
+            
+            updateStats() {
+                // Update event count
+                const today = new Date().toISOString().split('T')[0];
+                const upcomingEvents = this.events.filter(e => e.date >= today).length;
+                const totalEventsElement = document.getElementById('total-events');
+                if (totalEventsElement) totalEventsElement.textContent = upcomingEvents;
+                
+                // Update student count
+                const totalStudentsElement = document.getElementById('total-students');
+                if (totalStudentsElement) totalStudentsElement.textContent = this.students.length;
+                
+                // Update placement rate
+                const placementRate = this.students.length > 0 ? 
+                    Math.round((this.students.filter(s => s.company).length / this.students.length) * 100) : 0;
+                const placementRateElement = document.getElementById('placement-rate');
+                if (placementRateElement) placementRateElement.textContent = placementRate + '%';
+                
+                // Update active items
+                const notificationsElement = document.getElementById('notifications');
+                if (notificationsElement) notificationsElement.textContent = this.events.length + this.students.length;
+            }
+            
+            // Rendering Methods
+            renderEvents() {
+                const container = document.getElementById('events-list-container');
+                if (!container) return;
+                
+                if (this.events.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-times"></i>
+                            <p>No events found. Add your first event!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Sort events by date
+                const sortedEvents = [...this.events].sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                container.innerHTML = sortedEvents.map(event => {
+                    const date = new Date(event.date);
+                    const day = date.getDate();
+                    const month = date.toLocaleString('default', { month: 'short' });
+                    
+                    return `
+                        <div class="event-card">
+                            <div class="event-date">
+                                <span class="day">${day}</span>
+                                <span class="month">${month}</span>
+                            </div>
+                            <div class="event-details">
+                                <h4>${event.name}</h4>
+                                <p>${event.summary}</p>
+                                ${event.image ? `<img src="${event.image}" alt="${event.name}" style="width:100%; max-height:100px; object-fit:cover; border-radius:5px; margin-bottom:10px;">` : ''}
+                                <div class="event-actions">
+                                    <button class="btn-edit" onclick="editEvent('${event.id}')">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn-delete" onclick="deleteEvent('${event.id}')">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            renderStudents() {
+                const container = document.getElementById('students-list-container');
+                if (!container) return;
+                
+                if (this.students.length === 0) {
+                    container.innerHTML = `
+                        <tr>
+                            <td colspan="7">
+                                <div class="empty-state" style="padding: 2rem;">
+                                    <i class="fas fa-user-slash"></i>
+                                    <p>No students found. Add your first student!</p>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = this.students.map(student => `
+                    <tr>
+                        <td>
+                            <img src="${student.image || 'https://via.placeholder.com/50?text=No+Photo'}" alt="${student.name}" class="student-photo" onerror="this.src='https://via.placeholder.com/50?text=No+Photo'">
+                        </td>
+                        <td><strong>${student.name}</strong></td>
+                        <td><span class="batch-badge">${student.batch}</span></td>
+                        <td>${student.department}</td>
+                        <td>${student.company}</td>
+                        <td><span class="package-badge">${student.package} LPA</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn-edit" onclick="editStudent('${student.id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-delete" onclick="deleteStudent('${student.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+        
+        // Initialize Data Manager
+        const dataManager = new DataManager();
+        
+        // Event Form Handling with File Support
+        const eventForm = document.getElementById('add-event-form');
+        const eventSubmitBtn = document.getElementById('event-submit-btn');
+        const eventCancelBtn = document.getElementById('event-cancel-btn');
+        let editingEventId = null;
+        
+        if (eventForm) {
+            eventForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let imageData = '';
+                const eventToggle = document.getElementById('event-image-toggle');
+                
+                if (eventToggle && eventToggle.checked) {
+                    // Using URL
+                    const urlInput = document.getElementById('event-image-url');
+                    imageData = urlInput ? urlInput.value.trim() : '';
+                } else {
+                    // Using local file
+                    const fileInput = document.getElementById('event-image-file');
+                    const previewImage = document.getElementById('event-preview-image');
+                    
+                    if (fileInput && fileInput.files && fileInput.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            imageData = event.target.result;
+                            processEventSubmission(imageData);
+                        };
+                        reader.readAsDataURL(fileInput.files[0]);
+                    } else if (previewImage && previewImage.src) {
+                        imageData = previewImage.src;
+                        processEventSubmission(imageData);
+                    } else {
+                        processEventSubmission('');
+                    }
+                    return;
+                }
+                
+                processEventSubmission(imageData);
+            });
+            
+            if (eventCancelBtn) {
+                eventCancelBtn.addEventListener('click', resetEventForm);
+            }
+        }
+        
+        function processEventSubmission(imageData) {
+            const eventData = {
+                date: document.getElementById('event-date').value,
+                name: document.getElementById('event-name').value,
+                summary: document.getElementById('event-summary').value,
+                image: imageData
+            };
+            
+            if (editingEventId) {
+                // Update existing event
+                if (dataManager.updateEvent(editingEventId, eventData)) {
+                    showNotification('Event updated successfully!');
+                    resetEventForm();
+                }
+            } else {
+                // Add new event
+                dataManager.addEvent(eventData);
+                showNotification('Event added successfully!');
+                resetEventForm();
+            }
+        }
+        
+        function clearEventImage() {
+            const eventFileInput = document.getElementById('event-image-file');
+            const eventFileName = document.getElementById('event-file-name');
+            const eventPreview = document.getElementById('event-preview');
+            const eventUrlInput = document.getElementById('event-image-url');
+            
+            if (eventFileInput) eventFileInput.value = '';
+            if (eventFileName) eventFileName.textContent = 'No file chosen';
+            if (eventPreview) eventPreview.style.display = 'none';
+            if (eventUrlInput) eventUrlInput.value = '';
+        }
+        
+        function resetEventForm() {
+            if (eventForm) eventForm.reset();
+            editingEventId = null;
+            if (eventSubmitBtn) {
+                eventSubmitBtn.innerHTML = '<i class="fas fa-plus"></i> Add Event';
+                eventSubmitBtn.style.background = 'var(--gradient-1)';
+            }
+            if (eventCancelBtn) eventCancelBtn.style.display = 'none';
+            
+            const editEventId = document.getElementById('edit-event-id');
+            if (editEventId) editEventId.value = '';
+            
+            clearEventImage();
+        }
+        
+        function editEvent(id) {
+            const event = dataManager.getEvent(id);
+            if (event) {
+                const editEventId = document.getElementById('edit-event-id');
+                const eventDate = document.getElementById('event-date');
+                const eventName = document.getElementById('event-name');
+                const eventSummary = document.getElementById('event-summary');
+                const eventUrlInput = document.getElementById('event-image-url');
+                const eventToggle = document.getElementById('event-image-toggle');
+                
+                if (editEventId) editEventId.value = event.id;
+                if (eventDate) eventDate.value = event.date;
+                if (eventName) eventName.value = event.name;
+                if (eventSummary) eventSummary.value = event.summary;
+                
+                if (event.image) {
+                    if (event.image.startsWith('data:image') || event.image.startsWith('blob:')) {
+                        // Local file image
+                        if (eventToggle) eventToggle.checked = false;
+                        if (eventUrlInput) eventUrlInput.value = '';
+                        const eventPreviewImage = document.getElementById('event-preview-image');
+                        const eventPreview = document.getElementById('event-preview');
+                        const eventPreviewName = document.getElementById('event-preview-name');
+                        
+                        if (eventPreviewImage) eventPreviewImage.src = event.image;
+                        if (eventPreviewName) eventPreviewName.textContent = 'Uploaded image';
+                        if (eventPreview) eventPreview.style.display = 'flex';
+                    } else {
+                        // URL image
+                        if (eventToggle) eventToggle.checked = true;
+                        if (eventUrlInput) eventUrlInput.value = event.image;
+                    }
+                }
+                
+                editingEventId = event.id;
+                if (eventSubmitBtn) {
+                    eventSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Update Event';
+                    eventSubmitBtn.style.background = 'var(--gradient-3)';
+                }
+                if (eventCancelBtn) eventCancelBtn.style.display = 'flex';
+                
+                // Scroll to form
+                const addEventForm = document.getElementById('add-event-form');
+                if (addEventForm) addEventForm.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function deleteEvent(id) {
+            if (confirm('Are you sure you want to delete this event?')) {
+                if (dataManager.deleteEvent(id)) {
+                    showNotification('Event deleted successfully!');
+                }
+            }
+        }
+        
+        // Student Form Handling with File Support
+        const studentForm = document.getElementById('add-student-form');
+        const studentSubmitBtn = document.getElementById('student-submit-btn');
+        const studentCancelBtn = document.getElementById('student-cancel-btn');
+        let editingStudentId = null;
+        
+        if (studentForm) {
+            studentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let imageData = '';
+                const studentToggle = document.getElementById('student-image-toggle');
+                
+                if (studentToggle && studentToggle.checked) {
+                    // Using URL
+                    const urlInput = document.getElementById('student-image-url');
+                    imageData = urlInput ? urlInput.value.trim() : '';
+                } else {
+                    // Using local file
+                    const fileInput = document.getElementById('student-image-file');
+                    const previewImage = document.getElementById('student-preview-image');
+                    
+                    if (fileInput && fileInput.files && fileInput.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            imageData = event.target.result;
+                            processStudentSubmission(imageData);
+                        };
+                        reader.readAsDataURL(fileInput.files[0]);
+                    } else if (previewImage && previewImage.src) {
+                        imageData = previewImage.src;
+                        processStudentSubmission(imageData);
+                    } else {
+                        processStudentSubmission('');
+                    }
+                    return;
+                }
+                
+                processStudentSubmission(imageData);
+            });
+            
+            if (studentCancelBtn) {
+                studentCancelBtn.addEventListener('click', resetStudentForm);
+            }
+        }
+        
+        function processStudentSubmission(imageData) {
+            const studentData = {
+                name: document.getElementById('student-name').value,
+                batch: document.getElementById('student-batch').value,
+                department: document.getElementById('student-department').value,
+                company: document.getElementById('student-company').value,
+                package: document.getElementById('student-package').value,
+                image: imageData
+            };
+            
+            if (editingStudentId) {
+                // Update existing student
+                if (dataManager.updateStudent(editingStudentId, studentData)) {
+                    showNotification('Student updated successfully!');
+                    resetStudentForm();
+                }
+            } else {
+                // Add new student
+                dataManager.addStudent(studentData);
+                showNotification('Student added successfully!');
+                resetStudentForm();
+            }
+        }
+        
+        function clearStudentImage() {
+            const studentFileInput = document.getElementById('student-image-file');
+            const studentFileName = document.getElementById('student-file-name');
+            const studentPreview = document.getElementById('student-preview');
+            const studentUrlInput = document.getElementById('student-image-url');
+            
+            if (studentFileInput) studentFileInput.value = '';
+            if (studentFileName) studentFileName.textContent = 'No file chosen';
+            if (studentPreview) studentPreview.style.display = 'none';
+            if (studentUrlInput) studentUrlInput.value = '';
+        }
+        
+        function resetStudentForm() {
+            if (studentForm) studentForm.reset();
+            editingStudentId = null;
+            if (studentSubmitBtn) {
+                studentSubmitBtn.innerHTML = '<i class="fas fa-plus"></i> Add Student';
+                studentSubmitBtn.style.background = 'var(--gradient-1)';
+            }
+            if (studentCancelBtn) studentCancelBtn.style.display = 'none';
+            
+            const editStudentId = document.getElementById('edit-student-id');
+            if (editStudentId) editStudentId.value = '';
+            
+            clearStudentImage();
+        }
+        
+        function editStudent(id) {
+            const student = dataManager.getStudent(id);
+            if (student) {
+                const editStudentId = document.getElementById('edit-student-id');
+                const studentName = document.getElementById('student-name');
+                const studentBatch = document.getElementById('student-batch');
+                const studentDepartment = document.getElementById('student-department');
+                const studentCompany = document.getElementById('student-company');
+                const studentPackage = document.getElementById('student-package');
+                const studentUrlInput = document.getElementById('student-image-url');
+                const studentToggle = document.getElementById('student-image-toggle');
+                
+                if (editStudentId) editStudentId.value = student.id;
+                if (studentName) studentName.value = student.name;
+                if (studentBatch) studentBatch.value = student.batch;
+                if (studentDepartment) studentDepartment.value = student.department;
+                if (studentCompany) studentCompany.value = student.company;
+                if (studentPackage) studentPackage.value = student.package;
+                
+                if (student.image) {
+                    if (student.image.startsWith('data:image') || student.image.startsWith('blob:')) {
+                        // Local file image
+                        if (studentToggle) studentToggle.checked = false;
+                        if (studentUrlInput) studentUrlInput.value = '';
+                        const studentPreviewImage = document.getElementById('student-preview-image');
+                        const studentPreview = document.getElementById('student-preview');
+                        const studentPreviewName = document.getElementById('student-preview-name');
+                        
+                        if (studentPreviewImage) studentPreviewImage.src = student.image;
+                        if (studentPreviewName) studentPreviewName.textContent = 'Uploaded image';
+                        if (studentPreview) studentPreview.style.display = 'flex';
+                    } else {
+                        // URL image
+                        if (studentToggle) studentToggle.checked = true;
+                        if (studentUrlInput) studentUrlInput.value = student.image;
+                    }
+                }
+                
+                editingStudentId = student.id;
+                if (studentSubmitBtn) {
+                    studentSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Update Student';
+                    studentSubmitBtn.style.background = 'var(--gradient-3)';
+                }
+                if (studentCancelBtn) studentCancelBtn.style.display = 'flex';
+                
+                // Scroll to form
+                const addStudentForm = document.getElementById('add-student-form');
+                if (addStudentForm) addStudentForm.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function deleteStudent(id) {
+            if (confirm('Are you sure you want to delete this student?')) {
+                if (dataManager.deleteStudent(id)) {
+                    showNotification('Student deleted successfully!');
+                }
+            }
+        }
+        
+        // Utility Functions
+        function updateTime() {
+            const indiaTime = new Date().toLocaleString("en-US", {
+                timeZone: "Asia/Kolkata",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            });
+            const timeElement = document.querySelector('#time .info-text');
+            if (timeElement) {
+                timeElement.textContent = indiaTime;
+            }
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        function openTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            const tabBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            const tabContent = document.getElementById(tabName);
+            
+            if (tabBtn) tabBtn.classList.add('active');
+            if (tabContent) tabContent.classList.add('active');
+            
+            // Refresh data when switching tabs
+            if (tabName === 'events') {
+                dataManager.renderEvents();
+            } else if (tabName === 'students') {
+                dataManager.renderStudents();
+            }
+        }
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                openTab(this.dataset.tab);
+            });
+        });
+        
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    window.location.href = 'admin.html';
+                }
+            });
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(notification);
+            
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s ease-out reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Settings Functions
+        function exportData() {
+            const data = dataManager.exportData();
+            showNotification('Data exported successfully!');
+        }
+        
+        function clearAllData() {
+            if (dataManager.clearAllData()) {
+                showNotification('All data cleared successfully!');
+            }
+        }
+        
+        function showStorageInfo() {
+            const eventsSize = JSON.stringify(dataManager.events).length;
+            const studentsSize = JSON.stringify(dataManager.students).length;
+            const totalSize = (eventsSize + studentsSize) / 1024; // Convert to KB
+            
+            alert(`Storage Information:\n\n` +
+                  `Events: ${dataManager.events.length} items (${(eventsSize/1024).toFixed(2)} KB)\n` +
+                  `Students: ${dataManager.students.length} items (${(studentsSize/1024).toFixed(2)} KB)\n` +
+                  `Total: ${totalSize.toFixed(2)} KB\n\n` +
+                  `Last Updated: ${new Date().toLocaleString()}`);
+        }
+        
+        // File Import
+        const importFile = document.getElementById('import-file');
+        if (importFile) {
+            importFile.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    if (confirm('Importing data will replace all current data. Continue?')) {
+                        if (dataManager.importData(event.target.result)) {
+                            showNotification('Data imported successfully!');
+                        } else {
+                            showNotification('Error importing data. Please check file format.');
+                        }
+                    }
+                };
+                reader.readAsText(file);
+                
+                // Reset file input
+                e.target.value = '';
+            });
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            dataManager.renderEvents();
+            dataManager.renderStudents();
+        });
+    </script>
+</body>
+</html>

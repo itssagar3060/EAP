@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Event Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <!-- Header section -->
+    <header>
+        <div class="header-top-bar">
+            <div class="header-info">
+                <div class="info-item" id="time">
+                    <i class="fas fa-clock"></i>
+                    <span class="info-text">Loading...</span>
+                </div>
+                <div class="info-item" id="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="info-text">Avcoe, Sangamner, India</span>
+                </div>
+                <div class="info-item" id="weather">
+                    <i class="fas fa-cloud-sun"></i>
+                    <span class="info-text">Loading...</span>
+                </div>
+                <div class="info-item" id="notification-toggle">
+                    <i class="fas fa-bell"></i>
+                    <span class="info-text">Notifications ON</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <h1><i class="fas fa-calendar-alt"></i> College Event Calendar</h1>
+            <nav>
+                <a href="index.html" class="active"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                <a href="students.html"><i class="fas fa-users"></i> Students</a>
+                <a href="admin.html"><i class="fas fa-lock"></i> Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="animated">
+        <div class="calendar-layout">
+            <!-- Enhanced Calendar Container -->
+            <div class="calendar-container animate__animated animate__fadeInUp">
+                <div class="calendar-header">
+                    <button id="prev-month" class="nav-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h2 id="current-month-year" class="month-title">Month Year</h2>
+                    <button id="next-month" class="nav-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Weekday headers with animation -->
+                <div class="weekday-headers">
+                    <div class="weekday">Sun</div>
+                    <div class="weekday">Mon</div>
+                    <div class="weekday">Tue</div>
+                    <div class="weekday">Wed</div>
+                    <div class="weekday">Thu</div>
+                    <div class="weekday">Fri</div>
+                    <div class="weekday">Sat</div>
+                </div>
+                
+                <!-- Calendar grid -->
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Days will be filled by JavaScript -->
+                </div>
+                
+                <!-- Calendar footer -->
+                <div class="calendar-footer">
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-dot today-dot"></span>
+                            <span>Today</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot event-dot"></span>
+                            <span>Events</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot weekend-dot"></span>
+                            <span>Weekend</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Events Panel -->
+            <div class="upcoming-events-panel animate__animated animate__fadeInRight">
+                <div class="panel-header">
+                    <h2><i class="fas fa-calendar-check"></i> Upcoming Events</h2>
+                    <div class="panel-decoration">
+                        <div class="decoration-circle blue"></div>
+                        <div class="decoration-circle green"></div>
+                        <div class="decoration-circle orange"></div>
+                    </div>
+                </div>
+                <div id="upcoming-events-list">
+                    <!-- Upcoming events will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Modal -->
+        <div class="modal" id="events-modal">
+            <div class="modal-content animate__animated animate__zoomIn">
+                <span class="close-modal">&times;</span>
+                <h2><i class="fas fa-calendar-day"></i> <span id="modal-date-title">Events for Date</span></h2>
+                <div id="events-list">
+                    <!-- Events will be loaded here -->
+                </div>
+                <p id="no-events-msg"><i class="fas fa-info-circle"></i> No events scheduled for this date.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-university"></i> Avcoe College</h3>
+                <p>Sangamner, Maharashtra, India</p>
+                <p>Email: info@avcoe.com</p>
+                <p>Phone: +91 1234567890</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-calendar-alt"></i> Event Calendar</a></li>
+                    <li><a href="students.html"><i class="fas fa-users"></i> Student Gallery</a></li>
+                    <li><a href="admin.html"><i class="fas fa-lock"></i> Admin Login</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p class="copyright">
+                    &copy; 2024 Avcoe College Event Calendar. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Calendar functionality
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+        
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        // Get events from localStorage
+        function getEventsFromStorage() {
+            const eventsData = JSON.parse(localStorage.getItem('college_events')) || [];
+            const events = {};
+            
+            eventsData.forEach(event => {
+                if (!events[event.date]) {
+                    events[event.date] = [];
+                }
+                events[event.date].push({
+                    name: event.name,
+                    summary: event.summary,
+                    image: event.image
+                });
+            });
+            
+            return events;
+        }
+
+        // Initialize calendar
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCalendar();
+            updateUpcomingEvents();
+            setupEventListeners();
+            updateTime();
+            updateWeather();
+        });
+
+        function renderCalendar() {
+            const calendarGrid = document.getElementById('calendar-grid');
+            const monthYearDisplay = document.getElementById('current-month-year');
+            
+            if (!calendarGrid || !monthYearDisplay) return;
+            
+            calendarGrid.innerHTML = '';
+            monthYearDisplay.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date();
+            const events = getEventsFromStorage();
+            
+            // Previous month days
+            const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+            for (let i = 0; i < firstDay; i++) {
+                const day = createDayElement(prevMonthLastDay - firstDay + i + 1, true);
+                calendarGrid.appendChild(day);
+            }
+            
+            // Current month days
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayDate = new Date(currentYear, currentMonth, i);
+                const isToday = dayDate.getDate() === today.getDate() && 
+                               dayDate.getMonth() === today.getMonth() && 
+                               dayDate.getFullYear() === today.getFullYear();
+                const isWeekend = dayDate.getDay() === 0 || dayDate.getDay() === 6;
+                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const dayEvents = events[dateStr] || [];
+                
+                const day = createDayElement(i, false, isToday, isWeekend, dayEvents.length);
+                day.dataset.date = dateStr;
+                day.addEventListener('click', () => showEventsModal(dateStr));
+                calendarGrid.appendChild(day);
+            }
+            
+            // Next month days
+            const totalCells = 42;
+            const remainingCells = totalCells - (firstDay + daysInMonth);
+            for (let i = 1; i <= remainingCells; i++) {
+                const day = createDayElement(i, true);
+                calendarGrid.appendChild(day);
+            }
+        }
+
+        function createDayElement(dayNumber, isEmpty, isToday = false, isWeekend = false, eventCount = 0) {
+            const day = document.createElement('div');
+            day.className = 'calendar-day';
+            
+            if (isEmpty) day.classList.add('empty');
+            if (isToday) day.classList.add('today');
+            if (isWeekend) day.classList.add('weekend');
+            
+            const dayNumberSpan = document.createElement('div');
+            dayNumberSpan.className = 'calendar-day-number';
+            dayNumberSpan.textContent = dayNumber;
+            day.appendChild(dayNumberSpan);
+            
+            if (eventCount > 0 && !isEmpty) {
+                if (eventCount === 1) {
+                    const eventDot = document.createElement('div');
+                    eventDot.className = 'event-dot';
+                    day.appendChild(eventDot);
+                } else {
+                    const eventCountDiv = document.createElement('div');
+                    eventCountDiv.className = 'multiple-events';
+                    eventCountDiv.textContent = eventCount;
+                    day.appendChild(eventCountDiv);
+                }
+            }
+            
+            return day;
+        }
+
+        function showEventsModal(dateStr) {
+            const modal = document.getElementById('events-modal');
+            const dateTitle = document.getElementById('modal-date-title');
+            const eventsList = document.getElementById('events-list');
+            const noEventsMsg = document.getElementById('no-events-msg');
+            
+            const date = new Date(dateStr);
+            dateTitle.textContent = date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            const events = getEventsFromStorage()[dateStr] || [];
+            eventsList.innerHTML = '';
+            
+            if (events.length > 0) {
+                noEventsMsg.style.display = 'none';
+                events.forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.className = 'event-item';
+                    eventElement.innerHTML = `
+                        <h3><i class="fas fa-calendar-check"></i> ${event.name}</h3>
+                        <p>${event.summary}</p>
+                        ${event.image ? `<img src="${event.image}" alt="${event.name}" style="width:100%; max-height:200px; object-fit:cover; border-radius:8px; margin-top:10px;">` : ''}
+                    `;
+                    eventsList.appendChild(eventElement);
+                });
+            } else {
+                noEventsMsg.style.display = 'block';
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function updateUpcomingEvents() {
+            const upcomingList = document.getElementById('upcoming-events-list');
+            if (!upcomingList) return;
+            
+            const upcomingEvents = [];
+            const today = new Date();
+            const events = getEventsFromStorage();
+            
+            Object.keys(events).forEach(dateStr => {
+                const eventDate = new Date(dateStr);
+                if (eventDate >= today) {
+                    events[dateStr].forEach(event => {
+                        upcomingEvents.push({
+                            date: dateStr,
+                            dateObj: eventDate,
+                            event: event
+                        });
+                    });
+                }
+            });
+            
+            upcomingEvents.sort((a, b) => a.dateObj - b.dateObj);
+            upcomingList.innerHTML = '';
+            
+            if (upcomingEvents.length === 0) {
+                upcomingList.innerHTML = `
+                    <div class="no-upcoming-events">
+                        <i class="fas fa-calendar-times"></i>
+                        No upcoming events found
+                    </div>
+                `;
+                return;
+            }
+            
+            const eventsToShow = upcomingEvents.slice(0, 5);
+            eventsToShow.forEach(item => {
+                const eventElement = document.createElement('div');
+                eventElement.className = 'upcoming-event-item';
+                eventElement.innerHTML = `
+                    <div class="upcoming-event-date">
+                        <i class="far fa-calendar"></i>
+                        ${item.dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </div>
+                    <div class="upcoming-event-name">${item.event.name}</div>
+                    <i class="fas fa-chevron-right"></i>
+                `;
+                
+                eventElement.addEventListener('click', () => showEventsModal(item.date));
+                upcomingList.appendChild(eventElement);
+            });
+        }
+
+        function setupEventListeners() {
+            // Month navigation
+            document.getElementById('prev-month')?.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar();
+            });
+            
+            document.getElementById('next-month')?.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar();
+            });
+            
+            // Close modal
+            document.querySelector('.close-modal')?.addEventListener('click', () => {
+                document.getElementById('events-modal').style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                const modal = document.getElementById('events-modal');
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Notification toggle
+            const notificationToggle = document.getElementById('notification-toggle');
+            if (notificationToggle) {
+                notificationToggle.addEventListener('click', function() {
+                    const isEnabled = this.querySelector('.info-text').textContent === 'Notifications ON';
+                    const icon = this.querySelector('i');
+                    const text = this.querySelector('.info-text');
+                    
+                    if (isEnabled) {
+                        icon.className = 'fas fa-bell-slash';
+                        text.textContent = 'Notifications OFF';
+                    } else {
+                        icon.className = 'fas fa-bell';
+                        text.textContent = 'Notifications ON';
+                    }
+                });
+            }
+        }
+
+        // Live Time for Sangamner
+        function updateTime() {
+            const indiaTime = new Date().toLocaleString("en-US", {
+                timeZone: "Asia/Kolkata",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: true
+            });
+            const timeElement = document.querySelector('#time .info-text');
+            if (timeElement) {
+                timeElement.textContent = indiaTime;
+            }
+        }
+        setInterval(updateTime, 1000);
+        
+        // Fetch Weather for Sangamner (simulated)
+         async function fetchWeather() {
+            const apiKey = "9812a2cd7527c37af7e50ac1e85c981d"; // Replace with your OpenWeatherMap API key
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=Sangamner,IN&units=metric&appid=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const temp = data.main.temp;
+                const description = data.weather[0].description;
+                document.getElementById("weather").textContent = 
+                    `Weather: ${temp}°C, ${description.charAt(0).toUpperCase() + description.slice(1)}`;
+            } catch (error) {
+                document.getElementById("weather").textContent = "Weather: Unable to fetch data.";
+            }
+        }
+        fetchWeather();
+        
+        // Update weather every 5 minutes
+        setInterval(fetchWeather, 300000);
+    </script>
+</body>
+</html>

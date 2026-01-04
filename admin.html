@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Secure Access</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body class="admin-login-page">
+    <div class="login-background">
+        <div class="security-pattern"></div>
+    </div>
+    
+    <header class="admin-header">
+        <div class="header-logo">
+            <i class="fas fa-shield-alt"></i>
+            <h1>Admin Portal</h1>
+        </div>
+        <nav>
+            <a href="index.html"><i class="fas fa-calendar-alt"></i> Calendar</a>
+            <a href="students.html"><i class="fas fa-users"></i> Students</a>
+            <a href="admin.html" class="active"><i class="fas fa-lock"></i> Admin</a>
+        </nav>
+    </header>
+
+    <main class="animated">
+        <div class="login-container">
+            <div class="login-card animate__animated animate__zoomIn">
+                <div class="login-header">
+                    <i class="fas fa-user-shield security-icon"></i>
+                    <h2>Secure Admin Login</h2>
+                    <p>Restricted access to authorized personnel only</p>
+                </div>
+                
+                <form id="admin-login" class="admin-form">
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fas fa-user-tie"></i> Username:
+                        </label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="username" required placeholder="Enter admin username">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fas fa-key"></i> Password:
+                        </label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="password" required placeholder="Enter your password">
+                            <button type="button" class="toggle-password" aria-label="Show password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                        </button>
+                    </div>
+                    
+                    <div class="security-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <span>All login attempts are logged for security purposes</span>
+                    </div>
+                </form>
+                
+               
+                
+                <p id="login-error" class="error-msg" style="display:none;">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <span class="error-text"></span>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-university"></i> Avcoe College</h3>
+                <p>Sangamner, Maharashtra, India</p>
+                <p>Email: info@avcoe.com</p>
+                <p>Phone: +91 1234567890</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-calendar-alt"></i> Event Calendar</a></li>
+                    <li><a href="students.html"><i class="fas fa-users"></i> Student Gallery</a></li>
+                    <li><a href="admin.html"><i class="fas fa-lock"></i> Admin Login</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-share-alt"></i> Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+                <p class="copyright">
+                    &copy; 2024 Avcoe College Event Calendar. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* Additional styles for login page */
+        .login-container {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .login-card {
+            position: relative;
+            z-index: 20;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 20;
+        }
+        
+        .feature-item {
+            text-align: center;
+            color: white;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 20;
+        }
+        
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .feature-item i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #4CAF50;
+        }
+        
+        .feature-item h4 {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .feature-item p {
+            margin: 0;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script>
+        // Password toggle
+        document.querySelector('.toggle-password').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+        
+        // Form submission
+        document.getElementById('admin-login').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('login-error');
+            
+            const submitBtn = this.querySelector('.login-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading
+            submitBtn.innerHTML = '<span class="loading"></span> Authenticating...';
+            submitBtn.disabled = true;
+            
+            // Simulate authentication delay
+            setTimeout(() => {
+                // Demo authentication - any credentials work
+                if (username && password) {
+                    // Show success animation
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Login Successful!';
+                    submitBtn.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60) !important';
+                    
+                    // Redirect to dashboard after delay
+                    setTimeout(() => {
+                        window.location.href = 'admin-panel.html';
+                    }, 1000);
+                } else {
+                    errorMsg.style.display = 'block';
+                    errorMsg.querySelector('.error-text').textContent = 'Please fill in all fields';
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
